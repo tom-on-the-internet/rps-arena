@@ -12,10 +12,6 @@ type game struct {
 	initialized bool
 }
 
-func (g *game) playerCount() int {
-	return len(g.players)
-}
-
 func (g *game) playerCountOfKind(kind string) int {
 	count := 0
 
@@ -112,9 +108,11 @@ func (g *game) movePlayers() {
 }
 
 func (g *game) getClosestWeakerEnemyPlayerLocation(loc location) *location {
-	var closestLocation location
-	var minDistance int
-	var firstEnemyFound bool
+	var (
+		closestLocation location
+		minDistance     int
+		firstEnemyFound bool
+	)
 
 	thisPlayer := g.players[loc]
 
@@ -151,9 +149,11 @@ func (g *game) getClosestWeakerEnemyPlayerLocation(loc location) *location {
 }
 
 func (g *game) getClosestEnemyPlayerLocation(loc location) *location {
-	var closestLocation location
-	var minDistance int
-	var firstEnemyFound bool
+	var (
+		closestLocation location
+		minDistance     int
+		firstEnemyFound bool
+	)
 
 	thisPlayer := g.players[loc]
 
@@ -183,21 +183,6 @@ func (g *game) getClosestEnemyPlayerLocation(loc location) *location {
 	}
 
 	return &closestLocation
-}
-
-func (g *game) getPlayersNearby(playerLocation location) []*player {
-	locations := g.surroundingLocations(playerLocation)
-
-	players := []*player{}
-
-	for _, l := range locations {
-		p, ok := g.players[l]
-		if ok {
-			players = append(players, p)
-		}
-	}
-
-	return players
 }
 
 func (g *game) getWeakerPlayersNearby(playerLocation location) []*player {
@@ -336,7 +321,7 @@ func (g *game) initialize(playerCount int) {
 	g.initialized = true
 }
 
-// getGoalLocation returns a location adaject to the player
+// getGoalLocation returns a location adjacent to the player
 // that I believe is a pretty good place to move to.
 // This function is gross.
 func getGoalLocation(g *game, playerLocation location) location {
@@ -377,6 +362,7 @@ func getGoalLocation(g *game, playerLocation location) location {
 		} else if playerLocation.y > enemyLocation.y {
 			goalLocation.y--
 		}
+
 		return goalLocation
 	}
 
@@ -411,6 +397,7 @@ func getRandomGoalLocation(g *game, playerLocation location) location {
 	if x > g.maxX {
 		x = g.maxX
 	}
+
 	y := rand.Intn(g.maxY + 1)
 	if y > g.maxY {
 		y = g.maxY

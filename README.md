@@ -4,7 +4,23 @@ RPS Arena is a zero player game. The game plays itself. You watch.
 
 ## Installation
 
-go?
+### Binary
+
+Download the binary from <https://github.com/tom-on-the-internet/rps-arena/releases/latest>.
+
+Make sure you choose the correct binary for your system.
+
+### nix
+
+There's a flake in this repo. So, you can Run
+
+```sh
+nix shell github:tom-on-the-internet/rps-arena
+```
+
+### Compile
+
+Clone the repository, `go get`, `go build .`.
 
 ## Usage
 

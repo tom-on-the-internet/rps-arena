@@ -50,7 +50,6 @@ func doTick(speed string) tea.Cmd {
 }
 
 func (m model) Init() tea.Cmd {
-	// Start ticking.
 	return doTick(m.speed)
 }
 
@@ -78,7 +77,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 
 			return m, nil
-		case "n":
+		case "N", "n":
 			m.game.initialize(40)
 
 			return m, nil

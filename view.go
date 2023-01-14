@@ -10,7 +10,7 @@ import (
 const (
 	rockChar     = "🪨"
 	paperChar    = "📄"
-	scissorsChar = string('\u2702') + " "
+	scissorsChar = string('\u2702') + " " // solves emoji single/double width issue.
 	deadChar     = "😵"
 )
 
@@ -34,11 +34,11 @@ func generateArenaView(g *game) string {
 		var char string
 
 		switch player.kind {
-		case "rock":
+		case rock:
 			char = rockChar
-		case "paper":
+		case paper:
 			char = paperChar
-		case "scissors":
+		case scissors:
 			char = scissorsChar
 		}
 
@@ -70,12 +70,14 @@ func generateScoreboardView(g *game, availableWidth int) string {
 	if len(rocks) == 0 {
 		rocks = deadChar
 	}
+
 	rockLine := "ROCK:     " + rocks
 
 	papers := strings.Repeat(paperChar, g.playerCountOfKind(paper))
 	if len(papers) == 0 {
 		papers = deadChar
 	}
+
 	paperLine := "PAPER:    " + papers
 
 	scissors := strings.Repeat(scissorsChar, g.playerCountOfKind(scissors))
@@ -83,6 +85,7 @@ func generateScoreboardView(g *game, availableWidth int) string {
 	if len(scissors) == 0 {
 		scissors = deadChar
 	}
+
 	scissorsLine := "SCISSORS: " + scissors
 
 	scores := []string{rockLine, paperLine, scissorsLine}
@@ -120,9 +123,7 @@ func generateTitleView() string {
 }
 
 func showHelp() string {
-	title := lipgloss.NewStyle().
-		Foreground(lipgloss.Color("#CC33BB")).
-		Render("HELP / ABOUT")
+	title := makePink("HELP / ABOUT")
 
 	help := `
 RPS Arena is a zero player game. The game plays itself. You watch.
@@ -157,12 +158,16 @@ I don't know why I made this. It was not the best use of my time.
 func generateFooterView(g *game) string {
 	if g.isOver() {
 		player := getSomePlayer(g)
-		winner := lipgloss.NewStyle().
-			Foreground(lipgloss.Color("#CC33BB")).
-			Render(strings.Title(player.kind))
+		winner := makePink(strings.Title(player.kind))
 
 		return " " + winner + " wins. Press \"n\" to play again."
 	}
 
-	return " RPS Arena by Tom. Press H for help. Contact: tom@tomontheinternet.com"
+	email := makePink("tom@tomontheinternet.com")
+
+	return " RPS Arena by Tom. Press \"h\" for help. Contact: " + email
+}
+
+func makePink(s string) string {
+	return lipgloss.NewStyle().Foreground(lipgloss.Color("#CC33BB")).Render(s)
 }

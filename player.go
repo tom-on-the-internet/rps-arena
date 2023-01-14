@@ -12,15 +12,15 @@ func (p *player) defeats(otherPlayer *player) bool {
 		return true
 	}
 
-	if p.kind == "rock" && otherPlayer.kind == "scissors" {
+	if p.kind == rock && otherPlayer.kind == scissors {
 		return true
 	}
 
-	if p.kind == "scissors" && otherPlayer.kind == "paper" {
+	if p.kind == scissors && otherPlayer.kind == paper {
 		return true
 	}
 
-	if p.kind == "paper" && otherPlayer.kind == "rock" {
+	if p.kind == paper && otherPlayer.kind == rock {
 		return true
 	}
 
@@ -34,11 +34,11 @@ func newPlayer() *player {
 
 	switch num {
 	case 0:
-		player.kind = "rock"
+		player.kind = rock
 	case 1:
-		player.kind = "paper"
+		player.kind = paper
 	case 2:
-		player.kind = "scissors"
+		player.kind = scissors
 	}
 
 	return &player
