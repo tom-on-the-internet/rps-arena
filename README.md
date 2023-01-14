@@ -2,6 +2,8 @@
 
 RPS Arena is a zero player game. The game plays itself. You watch.
 
+https://user-images.githubusercontent.com/8356936/212448515-22d69868-4c22-4f08-957a-99bbafe2004f.mp4
+
 ## Installation
 
 ### Binary
