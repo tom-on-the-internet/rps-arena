@@ -343,7 +343,7 @@ func getGoalLocation(g *game, playerLocation location) location {
 	// if enemyLocation far enough, enemyLocation is weakest location
 	// basically, don't be a coward. if the enemy is far away, act like
 	// he's not here. get after it.
-	if playerLocation.relativeDistance(*enemyLocation) > 10 {
+	if playerLocation.relativeDistance(*enemyLocation) > 20 {
 		enemyLocation = closestWeakerEnemyLocation
 	}
 
@@ -380,6 +380,30 @@ func getGoalLocation(g *game, playerLocation location) location {
 		goalLocation.y++
 	}
 
+	// because we are running away, there's a chance we are being
+	// chased in a straight line. if that's the case, _maybe_ move off the line.
+	if goalLocation.x == enemyLocation.x {
+		rndNum := rand.Intn(9)
+		if rndNum == 0 && goalLocation.x != 0 {
+			goalLocation.x--
+		}
+
+		if rndNum == 1 && goalLocation.x != g.maxX {
+			goalLocation.x++
+		}
+	}
+
+	if goalLocation.y == enemyLocation.y {
+		rndNum := rand.Intn(9)
+		if rndNum == 0 && goalLocation.y != 0 {
+			goalLocation.y--
+		}
+
+		if rndNum == 1 && goalLocation.y != g.maxY {
+			goalLocation.y++
+		}
+	}
+
 	if goalLocation != playerLocation {
 		return goalLocation
 	}
@@ -387,7 +411,18 @@ func getGoalLocation(g *game, playerLocation location) location {
 	// if the goal location is the same as the player location at this point
 	// it means the player is stuck and being run down.
 	// shuck and give.
-	return getRandomGoalLocation(g, playerLocation)
+	// but only accept this location if it's not actually closer to the enemy
+	randomLocation := getRandomGoalLocation(g, playerLocation)
+
+	if randomLocation.relativeDistance(
+		*enemyLocation,
+	) >= playerLocation.relativeDistance(
+		*enemyLocation,
+	) {
+		return randomLocation
+	}
+
+	return playerLocation
 }
 
 func getRandomGoalLocation(g *game, playerLocation location) location {

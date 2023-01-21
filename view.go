@@ -155,7 +155,7 @@ I don't know why I made this. It was not the best use of my time.
 		Border(lipgloss.DoubleBorder()).Padding(2).Render(joined)
 }
 
-func generateFooterView(g *game) string {
+func generateFooterView(g *game, speed string) string {
 	if g.isOver() {
 		player := getSomePlayer(g)
 		winner := makePink(strings.Title(player.kind))
@@ -165,7 +165,7 @@ func generateFooterView(g *game) string {
 
 	email := makePink("tom@tomontheinternet.com")
 
-	return " RPS Arena by Tom. Press \"h\" for help. Contact: " + email
+	return " [ speed = " + speed + " ]   RPS Arena by Tom. Press \"h\" for help. Contact: " + email
 }
 
 func makePink(s string) string {

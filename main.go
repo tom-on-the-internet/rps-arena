@@ -19,9 +19,11 @@ type model struct {
 }
 
 const (
-	slow   = "slow"
-	normal = "normal"
-	fast   = "fast"
+	turtle    = "turtle"
+	slow      = "slow"
+	normal    = "normal"
+	fast      = "fast"
+	lightning = "lightning"
 )
 
 const (
@@ -36,12 +38,16 @@ func doTick(speed string) tea.Cmd {
 	var ms time.Duration
 
 	switch speed {
+	case lightning:
+		ms = 20
 	case fast:
-		ms = 25
+		ms = 75
 	case normal:
-		ms = 100
+		ms = 125
 	case slow:
-		ms = 500
+		ms = 250
+	case turtle:
+		ms = 1000
 	}
 
 	return tea.Tick(time.Millisecond*ms, func(t time.Time) tea.Msg {
@@ -61,19 +67,27 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		case "left":
 			switch m.speed {
+			case slow:
+				m.speed = turtle
 			case normal:
 				m.speed = slow
 			case fast:
 				m.speed = normal
+			case lightning:
+				m.speed = fast
 			}
 
 			return m, nil
 		case "right":
 			switch m.speed {
+			case fast:
+				m.speed = lightning
 			case normal:
 				m.speed = fast
 			case slow:
 				m.speed = normal
+			case turtle:
+				m.speed = slow
 			}
 
 			return m, nil
@@ -143,7 +157,7 @@ func (m model) View() string {
 
 	arenaView := generateArenaView(m.game)
 
-	footerView := generateFooterView(m.game)
+	footerView := generateFooterView(m.game, m.speed)
 
 	x := lipgloss.JoinVertical(lipgloss.Left, top, arenaView, footerView)
 
