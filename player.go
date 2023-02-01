@@ -7,6 +7,10 @@ type player struct {
 	turnTaken bool
 }
 
+// defeats checks if the current player is of a stronger
+// type than the other player. ex: paper beats rock
+// If there is no other player (nil), then we default
+// to true
 func (p *player) defeats(otherPlayer *player) bool {
 	if otherPlayer == nil {
 		return true
@@ -27,6 +31,7 @@ func (p *player) defeats(otherPlayer *player) bool {
 	return false
 }
 
+// newPlayer returns a new player with a random kind
 func newPlayer() *player {
 	player := player{}
 

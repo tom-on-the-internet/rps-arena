@@ -27,7 +27,7 @@ Clone the repository, `go get`, `go build .`.
 ### Go Install
 
 ```sh
-go install tom-on-the-internet/rps-arena@main
+go install github.com/tom-on-the-internet/rps-arena@main
 rps-arena
 ```
 
