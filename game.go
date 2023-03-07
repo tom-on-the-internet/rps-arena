@@ -343,7 +343,7 @@ func getGoalLocation(g *game, playerLocation location) location {
 	// if enemyLocation far enough, enemyLocation is weakest location
 	// basically, don't be a coward. if the enemy is far away, act like
 	// he's not here. get after it.
-	if playerLocation.relativeDistance(*enemyLocation) > 20 {
+	if playerLocation.relativeDistance(*enemyLocation) > 10 {
 		enemyLocation = closestWeakerEnemyLocation
 	}
 
